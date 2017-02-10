@@ -62,6 +62,7 @@ def load_dataframe(
         peptide_length=None,
         assay_method=None,
         assay_group=None,
+	disease_process=None,
         only_standard_amino_acids=True,
         reduced_alphabet=None,  # 20 letter AA strings -> simpler alphabet
         nrows=None):
@@ -171,6 +172,9 @@ def load_dataframe(
 
     if exclude_hla:
         mask &= ~(df["MHC Allele Name"].str.contains(exclude_hla, na=False))
+
+    if disease_process:
+        mask &= df["In Vivo 1 Process Type"].str.contains(disease_process)
 
     if assay_group:
         mask &= df["Assay Group"].str.contains(assay_group)
